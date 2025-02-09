@@ -1,0 +1,19 @@
+CREATE TABLE IF NOT EXISTS users (
+    id TEXT PRIMARY KEY NOT NULL,
+    display_name TEXT NOT NULL,
+    avatar TEXT NOT NULL
+);
+
+addUser:
+INSERT OR REPLACE INTO users(id, display_name, avatar)
+VALUES ?;
+
+deleteUser:
+DELETE FROM users
+WHERE id = ? AND NOT EXISTS (SELECT 1 FROM playlists WHERE owner = ?);
+
+getUserExists:
+SELECT EXISTS(SELECT 1 FROM users WHERE id = ? AND display_name = ? AND avatar = ?);
+
+getUsers:
+SELECT * FROM users;

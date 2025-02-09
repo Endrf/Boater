@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        color-scheme: dark;
+    }
+}
+
+@layer components {
+    .tooltip {
+        @apply absolute text-[1.6vw] text-neutral-200 font-semibold text-nowrap bg-neutral-900 backdrop-blur-lg p-[0.4vw] rounded-lg invisible group-hover:visible opacity-0 group-hover:opacity-100 transition duration-150 z-[80];
+    }
+}

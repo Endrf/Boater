@@ -1,0 +1,24 @@
+CREATE TABLE IF NOT EXISTS songs (
+    url TEXT PRIMARY KEY NOT NULL,
+    id TEXT NOT NULL,
+    provider TEXT NOT NULL,
+    title TEXT NOT NULL,
+    artists TEXT NOT NULL,
+    cover TEXT NOT NULL,
+    duration_ms INTEGER NOT NULL,
+    release_date TEXT NOT NULL
+);
+
+CREATE TRIGGER IF NOT EXISTS delete_lone_song AFTER DELETE ON playlistSongs
+BEGIN DELETE FROM songs
+WHERE url = old.song_url
+AND NOT EXISTS (SELECT 1 FROM playlistSongs WHERE song_url = old.song_url);
+END;
+
+addSong:
+INSERT OR IGNORE INTO songs(url, id, provider, title, artists, cover, duration_ms, release_date)
+VALUES ?;
+
+deleteSong:
+DELETE FROM songs
+WHERE url = ? AND NOT EXISTS (SELECT 1 FROM playlistSongs WHERE song_url = ?);

@@ -1,0 +1,73 @@
+CREATE TABLE IF NOT EXISTS playlists (
+    id TEXT NOT NULL,
+    provider TEXT NOT NULL,
+    title TEXT NOT NULL,
+    artist TEXT NOT NULL,
+    cover TEXT,
+    song_count INTEGER NOT NULL,
+    owner TEXT NOT NULL,
+    UNIQUE (id, owner),
+    FOREIGN KEY(owner) REFERENCES users(id)
+);
+
+CREATE TABLE IF NOT EXISTS playlistSongs (
+    playlist_id TEXT NOT NULL,
+    owner TEXT NOT NULL,
+    song_url TEXT NOT NULL,
+    FOREIGN KEY(playlist_id, owner) REFERENCES playlists(id, owner) ON DELETE CASCADE,
+    FOREIGN KEY(owner) REFERENCES users(id),
+    FOREIGN KEY(song_url) REFERENCES songs(url)
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS playlists_owner
+ON playlists(id, owner);
+
+addPlaylist:
+INSERT OR REPLACE INTO playlists(id, provider, title, artist, cover, song_count, owner)
+VALUES (?, ?, ?, ?, ?, ?, ?);
+
+deletePlaylist:
+DELETE FROM playlists
+WHERE id = ? AND owner = ?;
+
+addSongRelation:
+INSERT INTO playlistSongs(playlist_id, owner, song_url)
+VALUES (?, ?, ?);
+
+getUserPlaylists:
+SELECT * FROM playlists
+WHERE owner = ?;
+
+getPlaylistExists:
+SELECT EXISTS(SELECT 1 FROM playlists WHERE id = ? AND owner = ?);
+
+getPlaylistIdExists:
+SELECT EXISTS(SELECT 1 FROM playlists WHERE id = ?);
+
+getPlaylist:
+SELECT * FROM playlists
+WHERE id = ? AND owner = ?;
+
+getSongRelations:
+SELECT songs.* FROM playlistSongs
+INNER JOIN songs ON playlistSongs.song_url = songs.url
+WHERE playlist_id = ? AND owner = ?
+ORDER BY playlistSongs.rowid;
+
+deleteSongRelations:
+DELETE FROM playlistSongs
+WHERE playlist_id = ? AND owner = ?;
+
+updatePlaylistIdToBoater:
+UPDATE playlists
+SET id = ?, artist = ?, provider = "boater"
+WHERE id = ?;
+
+updatePlaylistSongCount:
+UPDATE playlists
+SET song_count = ?
+WHERE id = ?;
+
+updatePlaylistIdRelations:
+UPDATE playlistSongs
+SET playlist_id = ? WHERE playlist_id = ?;

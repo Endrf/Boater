@@ -1,0 +1,31 @@
+[package]
+name = "boater-app"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+yew = { git = "https://github.com/yewstack/yew/", features = ["csr"] }
+yew-router = { git = "https://github.com/yewstack/yew.git" }
+wasm-bindgen = { version = "0.2.92", features = ["default"] }
+web-sys = { version = "0.3.69", features = ["WebSocket", "Window", "console", "MessageEvent", "InputEvent", "HtmlInputElement", "HtmlDialogElement", "HtmlDocument", "HtmlIFrameElement"] }
+wasm-logger = "0.2.0"
+serde = { version = "1.0.201", features = ["derive"] }
+serde_json = { version = "1.0.117", features = ["default"] }
+gloo = { version = "0.11.0", features = ["net", "timers", "console"] }
+chrono = { version = "0.4.38", features = ["wasm-bindgen"] }
+wee_alloc = "0.4.5"
+rand = "0.8.5"
+pkce = "0.2.0"
+futures = "0.3.30"
+
+[features]
+default = ["wee_alloc/default"]
+
+[package.metadata]
+wasm-opt = true
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+opt-level = "z"
+lto = true

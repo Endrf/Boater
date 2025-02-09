@@ -1,0 +1,38 @@
+[bot]
+# Enable the websocket for Boater UI to connect to
+enableWebsocket = true
+
+# Port that the websocket will listen on
+websocketPort = 8081
+
+# Whether to cache songs in bot working directory under "./cache/songs"
+# true > makes loading times for previously played songs near instant but may use
+# a lot of storage space depending on format and quality
+# false > stores current audio file in "./cache/songs" and then deletes when done
+cacheSongs = true
+
+# Options for cache / file type and quality
+# Valid options: mp3, flac, wav, aac, opus, webm, vorbis
+audioFileFormat = "flac"
+# Valid options: range between 0 (best) to 10 (worst)
+audioFileQuality = 0
+
+# Use yt-dlp to get an audio source
+# Enabling this will greatly improve song accuracy when retrieving audio
+# Ensure that a yt-dlp executable is in the bot working directory before enabling
+useYtdlp = false
+
+# Unfinished configs below
+[webserver.client]
+# URL of the websocket that the client will connect to
+websocket_url = ""
+
+# Port of the websocket that the client will connect to
+# Set to 443 if the bot websocket is going through a proxy like cloudflare tunnel or reverse proxy
+# Otherwise set to the same port as the bot websocketPort
+websocket_port = 443
+
+[global]
+# List of audio services to enable
+# Valid options: spotify, apple, youtube, soundcloud, deezer, tidal
+enabled_services = ["spotify", "apple", "youtube", "soundcloud", "deezer"]

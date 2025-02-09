@@ -1,0 +1,16 @@
+bot/.gradle
+bot/build/
+bot/.idea/
+bot/cache/
+bot/.env
+bot/yt-dlp*
+bot/boater_data.db
+bot/config.toml
+
+backend/target/
+backend/.env
+
+frontend/dist/
+frontend/node_modules/
+frontend/target/
+frontend/tailwind.css

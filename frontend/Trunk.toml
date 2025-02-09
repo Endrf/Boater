@@ -1,0 +1,22 @@
+[serve]
+address = "127.0.0.1"
+port = 8090
+
+[build]
+release = false
+filehash = true
+#public_url = "/.proxy"
+
+[watch]
+ignore = ["dist"]
+
+[[hooks]]
+stage = "pre_build"
+command = "bash"
+command_arguments = ["-c", "tailwindcss -i input.css -o tailwind.css"]
+
+# linux wasm-opt hook
+#[[hooks]]
+#stage = "post_build"
+#command = "bash"
+#command_arguments = ["-c", "for f in dist/.stage/boater-app-*_bg.wasm; do wasm-opt -Oz --strip-debug --dce --duplicate-function-elimination --coalesce-locals --vacuum --remove-unused-brs --intrinsic-lowering -Oz \"$f\" -o \"$f\" -Oz; done"]
